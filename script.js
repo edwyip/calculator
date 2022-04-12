@@ -11,7 +11,7 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-    return (+b !== 0)?+a / +b:"Can't divided by zero, idiot."
+    return +a / +b
 }
 
 function operate(a, b, callback){
@@ -22,7 +22,7 @@ function whichOp(operator){
     return (operator === "+")?add:
     (operator === "-")?subtract:
     (operator === "*")?multiply:
-    (operator === "/")?divide:"SYNTAX ERROR"
+    divide
 }
 
 function backspace(){
@@ -54,8 +54,8 @@ function tempCalculation(op){
         dumNum.a = dummy
     } else {
         dumNum.b = dummy;
-        ans = (!+operate(dumNum.a, dumNum.b, dumNum.operator))?operate(dumNum.a, dumNum.b, dumNum.operator):
-        +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
+        ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
+        if (ans === Infinity) alert("Stop trying to divide by zero lmao. Click AC.")
         dumNum.a = ans;
         display.value = ans;      
     }
@@ -66,24 +66,27 @@ function tempCalculation(op){
 function finalCalculation(){
     dumNum.b = dummy;
     if (!finalAns){
-        finalAns = (!+operate(dumNum.a, dumNum.b, dumNum.operator))?operate(dumNum.a, dumNum.b, dumNum.operator):
-        +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
+        finalAns = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
     }
+    if (finalAns === Infinity) alert("Stop trying to divide by zero lmao.Click AC.")
     display.value = finalAns;
     dumNum = {};
     dummy = finalAns;
 }
 
+function cleanUp(){
+    dummy = ""
+    display.value = ""
+    dumNum = {}
+    clear.blur();
+}
+
 document.addEventListener("keydown", (event)=>{
     numbers.forEach(number=>{
-        if (number.textContent === event.key){
-            addNumber(number)
-        }
+        if (number.textContent === event.key) addNumber(number)
     })
     operators.forEach(op=>{
-        if (op.textContent === event.key){
-            tempCalculation(op)
-        }
+        if (op.textContent === event.key) tempCalculation(op)
     })
     switch (event.key){
         case ".":
@@ -95,6 +98,9 @@ document.addEventListener("keydown", (event)=>{
             break;
         case "Backspace":
             backspace();
+            break;
+        case " ":
+            cleanUp();
             break;
         default: break;
         
@@ -111,13 +117,7 @@ function addDot(){
     }
 }
 
-clear.addEventListener("click", ()=>{
-    dummy = ""
-    display.value = ""
-    dumNum = {}
-    clear.blur();
-})
-
+clear.addEventListener("click", cleanUp)
 del.addEventListener("click",backspace )
 
 
