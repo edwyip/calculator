@@ -37,6 +37,8 @@ const operators = document.querySelectorAll("#operators button")
 const clear = document.querySelector("#clear")
 const equal = document.querySelector("#equal")
 const del = document.querySelector("#del")
+const pnSwitch = document.querySelector("#pnSwitch")
+
 let dummy = ""
 let ans = ""
 let finalAns =""
@@ -118,6 +120,12 @@ operators.forEach(op=>op.addEventListener("click", ()=>tempCalculation(op)))
 equal.addEventListener("click", finalCalculation)
 dot.addEventListener("click", addDot)
 clear.addEventListener("click", cleanUp)
-del.addEventListener("click",backspace )
+del.addEventListener("click",backspace)
+pnSwitch.addEventListener("click", ()=>{
+    if (display.value) {
+        dummy = -dummy;
+        display.value = -display.value;
+    }
+})
 
 
