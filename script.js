@@ -33,7 +33,6 @@ function backspace(){
 const display = document.querySelector("#display")
 const numbers = document.querySelectorAll(".number")
 const dot = document.querySelector("#dot")
-// const operators = document.querySelector("#operators")
 const operators = document.querySelectorAll("#operators button")
 const clear = document.querySelector("#clear")
 const equal = document.querySelector("#equal")
@@ -70,7 +69,6 @@ function finalCalculation(){
         finalAns = (!+operate(dumNum.a, dumNum.b, dumNum.operator))?operate(dumNum.a, dumNum.b, dumNum.operator):
         +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
     }
-    // finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
     display.value = finalAns;
     dumNum = {};
     dummy = finalAns;
@@ -89,48 +87,35 @@ document.addEventListener("keydown", (event)=>{
     })
     switch (event.key){
         case ".":
-            if(dummy && !dummy.split("").includes(".")) {
-                dummy += "."
-                display.value += "."
-            }
+            addDot();
             break;
         case "=":
         case "Enter":
-            dumNum.b = dummy;
-            finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
-            display.value = finalAns;
-            dumNum = {};
-            dummy = finalAns;
+            finalCalculation();
             break;
         case "Backspace":
             backspace();
             break;
+        default: break;
         
     }
 })
 numbers.forEach(number=>number.addEventListener("click", ()=>addNumber(number)))
 operators.forEach(op=>op.addEventListener("click", ()=>tempCalculation(op)))
-
-dot.addEventListener("click", (event)=> {
-    if(dummy && !dummy.split("").includes(".")) {
-        dummy += event.target.textContent;
-        display.value += event.target.textContent;
-}})
-
-
-
-equal.addEventListener("click", ()=>{
-    dumNum.b = dummy;
-    finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
-    display.value = finalAns;
-    dumNum = {};
-    dummy = finalAns;
-})
+equal.addEventListener("click", finalCalculation)
+dot.addEventListener("click", addDot)
+function addDot(){
+    if(dummy && !dummy.split("").includes(".")){
+        dummy += ".";
+        display.value += "."
+    }
+}
 
 clear.addEventListener("click", ()=>{
     dummy = ""
     display.value = ""
     dumNum = {}
+    clear.blur();
 })
 
 del.addEventListener("click",backspace )
