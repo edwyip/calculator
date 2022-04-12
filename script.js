@@ -37,16 +37,62 @@ let ans = ""
 let finalAns =""
 let dumNum = {}
 
-numbers.forEach(number=>number.addEventListener("keydown", (e)=>{
-    // if (e.key === number.textContent){
-        console.log(e.key)
-    // }
-}))
-numbers.forEach((e)=>e.addEventListener("click", ()=>{
-        if (!dummy)display.value=""
-        dummy += e.textContent;
-        display.value += e.textContent;
-    }))
+function addNumber(number){
+    if (!dummy)display.value=""
+    dummy += number.textContent;
+    display.value += number.textContent;
+}
+
+function tempCalculation(op){
+    finalAns = "";
+    if (!dumNum.a) {
+        dumNum.a = dummy
+    } else {
+        dumNum.b = dummy;
+        ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
+        dumNum.a = ans;
+        display.value = ans;      
+    }
+    dumNum.operator = whichOp(op.textContent)
+    dummy = ""
+}
+
+// Not sure why the code below don't work
+// numbers.forEach(number=>number.addEventListener("keydown", (event)=>{
+//     if (event.key === number.textContent){
+//         addNumber(number);
+//     }
+// }))
+
+document.addEventListener("keydown", (event)=>{
+    numbers.forEach(number=>{
+        if (number.textContent === event.key){
+            addNumber(number)
+        }
+    })
+    operators.childNodes.forEach(op=>{
+        if (op.textContent === event.key){
+            tempCalculation(op)
+        }
+    })
+    if (event.key === "."){
+        if(dummy && !dummy.split("").includes(".")) {
+            dummy += "."
+            display.value += "."
+    }} else if (event.key === "=" || event.key === "Enter"){
+        dumNum.b = dummy;
+        finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
+        display.value = finalAns;
+        dumNum = {};
+        console.log(dumNum)
+        dummy = finalAns;
+    } else if (event.key === "Backspace"){
+        dummy = dummy.slice(0,-1);
+        display.value = display.value.slice(0,-1)
+    }
+
+})
+numbers.forEach(number=>number.addEventListener("click", ()=>addNumber(number)))
 
 dot.addEventListener("click", (event)=> {
     if(dummy && !dummy.split("").includes(".")) {
@@ -54,20 +100,18 @@ dot.addEventListener("click", (event)=> {
         display.value += event.target.textContent;
 }})
 
-operators.addEventListener("click", (event)=>{
-        if (event.target.id != "equal"){
-            finalAns = "";
-            if (!dumNum.a) {
-                dumNum.a = dummy
-            } else {
-                dumNum.b = dummy;
-                ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
-                dumNum.a = ans;
-                display.value = ans;      
-            }
-            dumNum.operator = whichOp(event.target.textContent)
-            dummy = ""
+operators.addEventListener("click", (op)=>{
+        finalAns = "";
+        if (!dumNum.a) {
+            dumNum.a = dummy
+        } else {
+            dumNum.b = dummy;
+            ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
+            dumNum.a = ans;
+            display.value = ans;      
         }
+        dumNum.operator = whichOp(op.target.textContent)
+        dummy = ""
     })
 
 equal.addEventListener("click", ()=>{
@@ -75,7 +119,6 @@ equal.addEventListener("click", ()=>{
     finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
     display.value = finalAns;
     dumNum = {};
-    console.log(dumNum)
     dummy = finalAns;
 })
 
