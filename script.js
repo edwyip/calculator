@@ -37,6 +37,11 @@ let ans = ""
 let finalAns =""
 let dumNum = {}
 
+numbers.forEach(number=>number.addEventListener("keydown", (e)=>{
+    // if (e.key === number.textContent){
+        console.log(e.key)
+    // }
+}))
 numbers.forEach((e)=>e.addEventListener("click", ()=>{
         if (!dummy)display.value=""
         dummy += e.textContent;
