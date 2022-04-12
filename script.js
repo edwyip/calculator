@@ -25,6 +25,11 @@ function whichOp(operator){
     (operator === "/")?divide:"SYNTAX ERROR"
 }
 
+function backspace(){
+    dummy = (dummy)?dummy.toString().slice(0,-1):dummy;
+    display.value = (display.value)?display.value.slice(0,-1):display.value;
+}
+
 const display = document.querySelector("#display")
 const numbers = document.querySelectorAll(".number")
 const dot = document.querySelector("#dot")
@@ -63,6 +68,7 @@ function tempCalculation(op){
 //         addNumber(number);
 //     }
 // }))
+const numList = "01234567890".split("");
 
 document.addEventListener("keydown", (event)=>{
     numbers.forEach(number=>{
@@ -75,22 +81,26 @@ document.addEventListener("keydown", (event)=>{
             tempCalculation(op)
         }
     })
-    if (event.key === "."){
-        if(dummy && !dummy.split("").includes(".")) {
-            dummy += "."
-            display.value += "."
-    }} else if (event.key === "=" || event.key === "Enter"){
-        dumNum.b = dummy;
-        finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
-        display.value = finalAns;
-        dumNum = {};
-        console.log(dumNum)
-        dummy = finalAns;
-    } else if (event.key === "Backspace"){
-        dummy = dummy.slice(0,-1);
-        display.value = display.value.slice(0,-1)
+    switch (event.key){
+        case ".":
+            if(dummy && !dummy.split("").includes(".")) {
+                dummy += "."
+                display.value += "."
+            }
+            break;
+        case "=":
+        case "Enter":
+            dumNum.b = dummy;
+            finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
+            display.value = finalAns;
+            dumNum = {};
+            dummy = finalAns;
+            break;
+        case "Backspace":
+            backspace();
+            break;
+        
     }
-
 })
 numbers.forEach(number=>number.addEventListener("click", ()=>addNumber(number)))
 
@@ -128,8 +138,6 @@ clear.addEventListener("click", ()=>{
     dumNum = {}
 })
 
-del.addEventListener("click",()=>{
-    dummy = dummy.slice(0,-1);
-    display.value = display.value.slice(0,-1)
-} )
+del.addEventListener("click",backspace )
+
 
