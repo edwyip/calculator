@@ -48,6 +48,13 @@ function addNumber(number){
     display.value += number.textContent;
 }
 
+function addDot(){
+    if(dummy && !dummy.split("").includes(".")){
+        dummy += ".";
+        display.value += "."
+    }
+}
+
 function tempCalculation(op){
     finalAns = "";
     if (!dumNum.a) {
@@ -55,7 +62,7 @@ function tempCalculation(op){
     } else {
         dumNum.b = dummy;
         ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
-        if (ans === Infinity) alert("Stop trying to divide by zero lmao. Click AC.")
+        if (ans === Infinity) alert("Stop trying to divide by zero lmao. Click AC or hit spacebar for reset.")
         dumNum.a = ans;
         display.value = ans;      
     }
@@ -68,7 +75,7 @@ function finalCalculation(){
     if (!finalAns){
         finalAns = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
     }
-    if (finalAns === Infinity) alert("Stop trying to divide by zero lmao.Click AC.")
+    if (finalAns === Infinity) alert("Stop trying to divide by zero lmao. Click AC or hit spacebar for reset.")
     display.value = finalAns;
     dumNum = {};
     dummy = finalAns;
@@ -110,13 +117,6 @@ numbers.forEach(number=>number.addEventListener("click", ()=>addNumber(number)))
 operators.forEach(op=>op.addEventListener("click", ()=>tempCalculation(op)))
 equal.addEventListener("click", finalCalculation)
 dot.addEventListener("click", addDot)
-function addDot(){
-    if(dummy && !dummy.split("").includes(".")){
-        dummy += ".";
-        display.value += "."
-    }
-}
-
 clear.addEventListener("click", cleanUp)
 del.addEventListener("click",backspace )
 
