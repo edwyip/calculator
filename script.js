@@ -26,22 +26,22 @@ function whichOp(operator){
 }
 
 const display = document.querySelector("#display")
-const numbers = document.querySelector("#numbers")
+const numbers = document.querySelectorAll(".number")
 const dot = document.querySelector("#dot")
 const operators = document.querySelector("#operators")
 const clear = document.querySelector("#clear")
 const equal = document.querySelector("#equal")
+const del = document.querySelector("#del")
 let dummy = ""
 let ans = ""
 let finalAns =""
 let dumNum = {}
 
-numbers.addEventListener("click", (event)=>{
-    if (event.target.nodeName === 'BUTTON') {
+numbers.forEach((e)=>e.addEventListener("click", ()=>{
         if (!dummy)display.value=""
-        dummy += event.target.textContent;
-        display.value += event.target.textContent;
-    }})
+        dummy += e.textContent;
+        display.value += e.textContent;
+    }))
 
 dot.addEventListener("click", (event)=> {
     if(dummy && !dummy.split("").includes(".")) {
@@ -50,26 +50,27 @@ dot.addEventListener("click", (event)=> {
 }})
 
 operators.addEventListener("click", (event)=>{
-    if (event.target.nodeName === 'BUTTON') {
-        finalAns = "";
-        if (!dumNum.a) {
-            dumNum.a = dummy
-            
-        } else {
-            dumNum.b = dummy;
-            ans = operate(dumNum.a, dumNum.b, dumNum.operator)
-            dumNum.a = ans;
-            display.value = ans;      
+        if (event.target.id != "equal"){
+            finalAns = "";
+            if (!dumNum.a) {
+                dumNum.a = dummy
+            } else {
+                dumNum.b = dummy;
+                ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
+                dumNum.a = ans;
+                display.value = ans;      
+            }
+            dumNum.operator = whichOp(event.target.textContent)
+            dummy = ""
         }
-        dumNum.operator = whichOp(event.target.textContent)
-        dummy = ""
-}})
+    })
 
 equal.addEventListener("click", ()=>{
     dumNum.b = dummy;
-    finalAns = (!finalAns)?operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
+    finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
     display.value = finalAns;
-    dumNum = {}
+    dumNum = {};
+    console.log(dumNum)
     dummy = finalAns;
 })
 
@@ -78,4 +79,9 @@ clear.addEventListener("click", ()=>{
     display.value = ""
     dumNum = {}
 })
+
+del.addEventListener("click",()=>{
+    dummy = dummy.slice(0,-1);
+    display.value = display.value.slice(0,-1)
+} )
 

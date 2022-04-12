@@ -1,0 +1,101 @@
+body{
+    display:flex;
+    justify-content:center;
+    background-color:black;
+}
+
+.container{
+    display: flex;
+    flex-flow: column;
+    height: 500px;
+    width: 600px;
+    border: 5px solid darkblue;
+    background-color: black;
+    
+}
+
+#display{
+    height:100px;
+    font-size: 60px;
+    border-bottom: 5px solid darkblue;
+    background-color: black;
+    text-align: end;
+    color: rgb(19, 239, 71);
+    font-weight: 900;
+    font-family:'Courier New', Courier, monospace;
+    flex: 0 0 auto;
+}
+
+#operators{
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    gap:10px;
+}
+
+#operators{
+    flex:4;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+    flex: 1
+}
+
+#clear{
+    color: red;
+    border: 1px solid red;
+}
+.row button{
+    flex: 1;
+    border: 1px solid rgb(19, 239, 71);
+    font-weight: 900;
+    background-color: #333333;
+    color:rgb(19, 239, 71);
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#buttons{
+    display:flex;
+    flex: 1;
+    justify-content:space-around;
+    margin:10px;
+    gap: 10px;
+}
+
+#left{
+    display: flex;
+    flex-flow: column;
+    flex: 3;
+    gap:10px;
+}
+
+#right{
+    display: flex;
+    flex-flow: column;
+    flex:1;
+    gap:10px;
+}
+
+#right button{
+    flex:1;
+    color:yellow;
+    border: 1px solid yellow;
+    font-weight: 900;
+    background-color: #333333;
+    font-size: 40px;
+}
+
+#del{
+    flex:1;
+}
+
+#equal{
+    flex: 1;
+}
+
+button{
+    border-radius: 5%
+}
