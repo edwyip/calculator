@@ -125,6 +125,7 @@ pnSwitch.addEventListener("click", ()=>{
     if (display.value) {
         dummy = -dummy;
         display.value = -display.value;
+        pnSwitch.blur();
     }
 })
 
