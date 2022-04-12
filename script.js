@@ -33,7 +33,8 @@ function backspace(){
 const display = document.querySelector("#display")
 const numbers = document.querySelectorAll(".number")
 const dot = document.querySelector("#dot")
-const operators = document.querySelector("#operators")
+// const operators = document.querySelector("#operators")
+const operators = document.querySelectorAll("#operators button")
 const clear = document.querySelector("#clear")
 const equal = document.querySelector("#equal")
 const del = document.querySelector("#del")
@@ -54,7 +55,8 @@ function tempCalculation(op){
         dumNum.a = dummy
     } else {
         dumNum.b = dummy;
-        ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
+        ans = (!+operate(dumNum.a, dumNum.b, dumNum.operator))?operate(dumNum.a, dumNum.b, dumNum.operator):
+        +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
         dumNum.a = ans;
         display.value = ans;      
     }
@@ -62,13 +64,17 @@ function tempCalculation(op){
     dummy = ""
 }
 
-// Not sure why the code below don't work
-// numbers.forEach(number=>number.addEventListener("keydown", (event)=>{
-//     if (event.key === number.textContent){
-//         addNumber(number);
-//     }
-// }))
-const numList = "01234567890".split("");
+function finalCalculation(){
+    dumNum.b = dummy;
+    if (!finalAns){
+        finalAns = (!+operate(dumNum.a, dumNum.b, dumNum.operator))?operate(dumNum.a, dumNum.b, dumNum.operator):
+        +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5)
+    }
+    // finalAns = (!finalAns)?+operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5):finalAns;
+    display.value = finalAns;
+    dumNum = {};
+    dummy = finalAns;
+}
 
 document.addEventListener("keydown", (event)=>{
     numbers.forEach(number=>{
@@ -76,7 +82,7 @@ document.addEventListener("keydown", (event)=>{
             addNumber(number)
         }
     })
-    operators.childNodes.forEach(op=>{
+    operators.forEach(op=>{
         if (op.textContent === event.key){
             tempCalculation(op)
         }
@@ -103,6 +109,7 @@ document.addEventListener("keydown", (event)=>{
     }
 })
 numbers.forEach(number=>number.addEventListener("click", ()=>addNumber(number)))
+operators.forEach(op=>op.addEventListener("click", ()=>tempCalculation(op)))
 
 dot.addEventListener("click", (event)=> {
     if(dummy && !dummy.split("").includes(".")) {
@@ -110,19 +117,7 @@ dot.addEventListener("click", (event)=> {
         display.value += event.target.textContent;
 }})
 
-operators.addEventListener("click", (op)=>{
-        finalAns = "";
-        if (!dumNum.a) {
-            dumNum.a = dummy
-        } else {
-            dumNum.b = dummy;
-            ans = +operate(dumNum.a, dumNum.b, dumNum.operator).toFixed(5);
-            dumNum.a = ans;
-            display.value = ans;      
-        }
-        dumNum.operator = whichOp(op.target.textContent)
-        dummy = ""
-    })
+
 
 equal.addEventListener("click", ()=>{
     dumNum.b = dummy;
