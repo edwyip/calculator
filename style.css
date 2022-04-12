@@ -65,7 +65,7 @@ button:hover {
 #operators{
     display: flex;
     flex-flow: column;
-    flex:4;
+    flex:2;
     gap:10px;
 }
 
@@ -91,7 +91,7 @@ button:hover {
 #left{
     display: flex;
     flex-flow: column;
-    flex: 3;
+    flex: 2;
     gap:10px;
 }
 
@@ -110,8 +110,13 @@ button:hover {
 
 #del{
     flex:1;
+    font-size: 30px;
 }
 
 #equal{
     flex: 1;
+}
+
+#pnSwitch{
+    flex: 1
 }
